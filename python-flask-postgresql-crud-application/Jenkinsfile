@@ -1,33 +1,36 @@
-node {
-    def app
+pipeline {
+    
+    agent any
+    
+    stages {
 
-
-    stage('Clone repository') {
-        steps {
-        checkout scm
+        stage('Clone repository') {
+            steps {
+            checkout scm
+            }
         }
-    }
 
 
-    stage('Update GIT') {
-        steps {
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                 script {
-                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
-                        sh 'git config user.email nbiswajit94@gmail.com'
-                        sh 'git config user.name Biswajit Nandi'
-                        sh 'pwd'
-                        sh 'ls'
-                        dir('python-flask-postgresql-crud-application') {
-                            sh """
-                            cat py-crud-app.yml
-                            sed -i 's+python-crud-app:v1.0.*+python-crud-app:v1.0.${BUILD_NUMBER}+g' py-crud-app.yml
-                            cat py-crud-app.yml
-                            git add .
-                            git commit -m 'Done by Jenkins Job change manifest v1.0.${BUILD_NUMBER}'
-                            git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/python-flask-postgresql-crud-application.git HEAD:main
-                            """
+        stage('Update GIT') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script {
+                        withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                            //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+                            sh 'git config user.email nbiswajit94@gmail.com'
+                            sh 'git config user.name Biswajit Nandi'
+                            sh 'pwd'
+                            sh 'ls'
+                            dir('python-flask-postgresql-crud-application') {
+                                sh """
+                                cat py-crud-app.yml
+                                sed -i 's+python-crud-app:v1.0.*+python-crud-app:v1.0.${BUILD_NUMBER}+g' py-crud-app.yml
+                                cat py-crud-app.yml
+                                git add .
+                                git commit -m 'Done by Jenkins Job change manifest v1.0.${BUILD_NUMBER}'
+                                git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/python-flask-postgresql-crud-application.git HEAD:main
+                                """
+                            }
                         }
                     }
                 }
