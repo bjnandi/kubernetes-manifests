@@ -24,7 +24,7 @@ pipeline {
                             dir('python-flask-postgresql-crud-application') {
                                 sh """
                                 cat py-crud-app-ds.yaml
-                                sed -i 's+python-crud-app:v1.0.*+python-crud-app:v1.0.${BUILD_NUMBER}+g' py-crud-app-ds.yaml
+                                sed -i 's+python-crud-app:v1.0.*+python-crud-app:v1.0.${DOCKERTAG}+g' py-crud-app-ds.yaml
                                 cat py-crud-app-ds.yaml
                                 git add .
                                 git commit -m 'Done by Jenkins Job change manifest v1.0.${BUILD_NUMBER}'
