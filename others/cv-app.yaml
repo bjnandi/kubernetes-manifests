@@ -34,6 +34,6 @@ spec:
     spec:
       containers:
       - name: cv-app
-        image: nginx:latest
+        image: bjnandi/cv:latest
         ports:
         - containerPort: 80
