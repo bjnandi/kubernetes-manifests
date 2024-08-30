@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nwujobs-app-svc
+  namespace: default
+  labels:
+    app: nwujobs-app
+spec:
+  type: NodePort 
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80  # Adjust if your Node.js app is running on a different port
+      nodePort: 30005
+  selector:
+    app: nwujobs-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nwujobs-app
+  namespace: default
+  labels:
+    app: server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nwujobs-app
+  template:
+    metadata:
+      labels:
+        app: nwujobs-app
+    spec:
+      containers:
+      - name: nwujobs-app
+        image: bjnandi/nwujobs-nwu-final-year-project
+        ports:
+        - containerPort: 80
