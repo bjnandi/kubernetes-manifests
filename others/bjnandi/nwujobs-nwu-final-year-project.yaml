@@ -34,6 +34,6 @@ spec:
     spec:
       containers:
       - name: nwujobs-app
-        image: bjnandi/cv:latest
+        image: bjnandi/nwujobs-nwu-final-year-project:latest
         ports:
         - containerPort: 80
