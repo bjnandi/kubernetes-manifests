@@ -11,7 +11,7 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80  # Adjust if your Node.js app is running on a different port
-      nodePort: 30005
+      nodePort: 30008
   selector:
     app: nwujobs-app
 ---
