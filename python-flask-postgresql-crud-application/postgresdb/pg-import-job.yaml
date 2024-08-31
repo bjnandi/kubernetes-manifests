@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: pg-import-job
+  namespace: default
 spec:
   template:
     spec:
