@@ -34,24 +34,22 @@ spec:
     spec:
       containers:
       - name: py-app
-        image: bjnandi/python-crud-app:v1.0.130
+        image: bjnandi/python-crud-app:v1.0.1
         ports:
         - containerPort: 8000
-        # env:
-        # - name: CLOUDINARY_CLOUD_NAME
-        #   value: "duwjbcn5x"
+        env:
+        - name: POSTGRES_HOST  
+          value: postgresql.default.svc.cluster.local
 
-        # - name: CLOUDINARY_API_KEY
-        #   value: "246694643839175"
+        - name: POSTGRES_DB
+          value: crud
 
-        # - name: CLOUDINARY_API_SECRET
-        #   value: "EFA0Qj8tD0f2-u_3Adx2I8ndHaY"
+        - name: POSTGRES_USER
+          value: postgres
 
-        # - name: DB_USER
-        #   value: myuser
-
-        # - name: DB_PASSWORD
-        #   value: mypassword
-
-        # - name: DB_HOST  #aaaaasshhsssssshhdddddddddddddd
-        #   value: mongodb-0.mongodb-svc.default.svc.cluster.local
+        - name: POSTGRES_PASSWORD
+          #value: "5isBt7ezr2"
+          valueFrom:
+              secretKeyRef:
+                name: pg-password-secret  # The name of your Secret
+                key: postgres-password  # The key in the Secret containing the password

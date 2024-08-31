@@ -1,0 +1,38 @@
+primary:
+  # persistence:
+  #   enabled: false  #  true          Enable persistence to retain data
+  #   size: 1Gi              # Size of the persistent volume
+  
+  persistence:
+      enabled: true
+      storageClass: "local-storage"  # Set this to your storage class
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi  # Storage size for the primary database PVC
+      mountPath: /bitnami/postgresql  # Path inside the pod where data will be stored
+
+# Set the PostgreSQL credentials
+auth:
+  enabled: true
+  postgresqlUsername: "postgres" # The username 
+  postgresqlPassword: "12345678"  # Replace with a secure password
+  postgresqlDatabase: "crud"  # The name of the initial database
+  existingSecret: "pg-password-secret" # Keep empty if not using an existing Kubernetes secret
+
+  resources:
+    requests:
+      memory: 256Mi        # Request for memory resources
+      cpu: 250m            # Request for CPU resources
+
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001          # Security context for the pod
+
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 1001        # Security context for the container
+
+
+
+
+  

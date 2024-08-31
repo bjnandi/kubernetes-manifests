@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pg-import-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: pg-import
+        image: postgres:latest
+        command: ["sh", "-c", "psql -U $POSTGRES_USER -h $POSTGRES_HOST  -f /data/init-db.sql"]
+        env:
+        - name: POSTGRES_USER
+          value: "postgres" # Replace with your PostgreSQL username
+        - name: POSTGRES_HOST
+          value: "postgresql.default.svc.cluster.local" # Replace with the name of your PostgreSQL service
+        
+        - name: PGPASSWORD
+          # value: "5isBt7ezr2" # Replace with your PostgreSQL password
+          valueFrom:
+            secretKeyRef:
+              name: pg-password-secret  # The name of your Secret
+              key: postgres-password           # The key in the Secret containing the password
+
+        volumeMounts:
+        - name: sql-dump
+          mountPath: /data
+
+      restartPolicy: OnFailure
+      volumes:
+      - name: sql-dump
+        configMap:
+          name: pg-init-configmap # This should be your ConfigMap with the SQL dump
