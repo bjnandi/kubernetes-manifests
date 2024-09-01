@@ -15,7 +15,6 @@ spec:
           value: "postgres" # Replace with your PostgreSQL username
         - name: POSTGRES_HOST
           value: "postgresql.default.svc.cluster.local" # Replace with the name of your PostgreSQL service
-        
         - name: PGPASSWORD
           # value: "5isBt7ezr2" # Replace with your PostgreSQL password
           valueFrom:
