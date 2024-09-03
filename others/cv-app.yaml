@@ -34,6 +34,6 @@ spec:
     spec:
       containers:
       - name: cv-app
-        image: bjnandi/cv:latest
+        image: bjnandi/cv:v1
         ports:
         - containerPort: 80
